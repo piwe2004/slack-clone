@@ -7,6 +7,8 @@ import "../firebase";
 import {getAuth, createUserWithEmailAndPassword, updateProfile} from 'firebase/auth'
 import md5 from 'md5';
 import {getDatabase, ref, set} from 'firebase/database'
+import { useDispatch } from 'react-redux';
+import { setUser } from '../store/userReducer';
 
 const IsPasswordValid = (password, confirmPassword) => {
     if(password.length < 6 || confirmPassword < 6){
@@ -18,7 +20,7 @@ const IsPasswordValid = (password, confirmPassword) => {
     }
 }
 function Join() {
-
+    const dispatch = useDispatch()
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false)
 
@@ -47,7 +49,6 @@ function Join() {
         setLoading(true);
         try {
             const {user} = await createUserWithEmailAndPassword(getAuth(), email, password)
-            console.log(name);
             await updateProfile(user,{
                 displayName:name,
                 photoURL: `https://www.gravatar.com/avatar/${md5(email)}?d=retro`
@@ -57,11 +58,11 @@ function Join() {
                 name: user.displayName,
                 avatar: user.photoURL
             });
+            dispatch(setUser(user))
             // store에 user정보 저장
         } catch (e) {
             setError(e)
             setLoading(false);
-            console.error(e)
         }
 
     }
