@@ -23,7 +23,7 @@ const userReducer = (state = initialState, action)=>{
         case CLEAR_USER:
             return{
                 currentUser:null,
-                isLoading: true,
+                isLoading: false,
             };
         default:
             return state;
