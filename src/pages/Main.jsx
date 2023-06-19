@@ -2,6 +2,7 @@ import React from 'react'
 import { Box, Drawer, Toolbar } from '@mui/material';
 import Header from '../component/Header';
 import ChannelMenu from '../component/ChannelMenu';
+import Chat from '../component/Chat/Chat';
 
 function Main() {
     return (
@@ -14,6 +15,9 @@ function Main() {
                     <ChannelMenu />
                 </Box>
             </Drawer>
+            <Box component='main' sx={{flexGrow:1, p:3}}>
+                <Chat />
+            </Box>
         </Box>
     )
 }

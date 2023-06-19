@@ -62,7 +62,7 @@ function ChannelMenu() {
     useEffect(()=>{
         if(channels.length > 0 && firstLoaded){
             setActiveChannelId(channels[0].id);
-            dispatch(setCurrentChannel(channels[0].id))
+            dispatch(setCurrentChannel(channels[0]))
             setFirstLoaded(false)
         }
     },[channels, dispatch, firstLoaded])
