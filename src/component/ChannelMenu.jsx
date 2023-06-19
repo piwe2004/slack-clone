@@ -4,6 +4,8 @@ import AddIcon from '@mui/icons-material/Add'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import "../firebase";
 import {child, getDatabase, onChildAdded, push, ref, update} from 'firebase/database'
+import { useDispatch } from 'react-redux';
+import { setCurrentChannel } from '../store/channelReucer';
 
 function ChannelMenu() {
     const [open, setOpen] = useState(false);
@@ -12,6 +14,7 @@ function ChannelMenu() {
     const [channels, setChannels] = useState([]);
     const [activeChannelId, setActiveChannelId] = useState('');
     const [firstLoaded, setFirstLoaded] = useState(true)
+    const dispatch = useDispatch();
     const handleClose = () =>{
         setOpen(false)
         setChannelName('')
@@ -23,7 +26,7 @@ function ChannelMenu() {
 
     useEffect(()=>{
         const unsubscribe = onChildAdded(ref(getDatabase(), 'channels'), (snapshot)=>{
-            setChannels([...channels, snapshot.val()])
+            setChannels((channelArr)=>[...channelArr, snapshot.val()])
         })
         return () => {
             setChannels([])
@@ -32,7 +35,8 @@ function ChannelMenu() {
     },[]);
 
     const changeChannel = (channel) => {
-        setActiveChannelId(channel.id)
+        setActiveChannelId(channel.id);
+        dispatch(setCurrentChannel(channel))
     }
 
     const handleSubmit = useCallback(async () => {
@@ -58,9 +62,10 @@ function ChannelMenu() {
     useEffect(()=>{
         if(channels.length > 0 && firstLoaded){
             setActiveChannelId(channels[0].id);
+            dispatch(setCurrentChannel(channels[0].id))
             setFirstLoaded(false)
         }
-    },[channels, firstLoaded])
+    },[channels, dispatch, firstLoaded])
 
     return (
         <>
