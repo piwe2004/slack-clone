@@ -9,7 +9,7 @@ import ProfileModal from './Modal/ProfileModal';
 
 function Header() {
 
-    const {user} = useSelector(state => state)
+    const {user, theme} = useSelector(state => state)
     const [anchorEl, setAnchorEl] = useState(null);
     const [showProfileModal, setShowProfileModal] = useState(false)
 
@@ -36,7 +36,7 @@ function Header() {
     return (
         <>
         {/* TODO backgroundColor 테마적용 */}
-            <AppBar position='fixed' sx={{zIndex:(theme)=> theme.zIndex.drawer+1, color:'#9a939b', backgroundColor:'#4c3c4c'}}>
+            <AppBar position='fixed' sx={{zIndex:(theme)=> theme.zIndex.drawer+1, color:'#9a939b', backgroundColor:theme.mainTheme}}>
                 <Toolbar sx={{display:'flex', justifyContent:'space-between', height:'50px'}}>
                     <Box sx={{display:'flex'}}>
                         <TagIcon />

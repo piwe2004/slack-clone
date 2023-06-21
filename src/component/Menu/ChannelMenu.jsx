@@ -2,12 +2,13 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
-import "../firebase";
+import "../../firebase";
 import {child, getDatabase, onChildAdded, push, ref, update} from 'firebase/database'
-import { useDispatch } from 'react-redux';
-import { setCurrentChannel } from '../store/channelReucer';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentChannel } from '../../store/channelReucer';
 
 function ChannelMenu() {
+    const {theme} = useSelector(state=>state)
     const [open, setOpen] = useState(false);
     const [channelName, setChannelName] = useState('');
     const [channelDetail, setChannelDetail] = useState('');
@@ -70,7 +71,7 @@ function ChannelMenu() {
     return (
         <>
             {/* TODO 테마반영 */}
-            <List sx={{overflow:'auto', width:240, backgroundColor:'#4c3c4c'}}>
+            <List sx={{overflow:'auto', width:240, backgroundColor:theme.mainTheme}}>
                 <ListItem secondaryAction={
                     <IconButton sx={{color:'#9a939b'}} onClick={handleOpen}>
                         <AddIcon />

@@ -8,7 +8,7 @@ import { updateProfile } from 'firebase/auth'
 import { getDatabase, ref, update } from 'firebase/database'
 
 function ProfileModal({open, handleClose}) {
-    const {user, channel} = useSelector(state=>state)
+    const {user} = useSelector(state=>state)
     const [previewImage, setPreviewImage] = useState('');
     const [uploadedCroppedImage, setUploadedCroppedImage] = useState('')
     const [croppedImage, setCroppedImage] = useState('')
