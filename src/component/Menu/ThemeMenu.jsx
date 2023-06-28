@@ -8,34 +8,39 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setTheme } from '../../store/themeReducer';
 
 function ThemeMenu() {
-    const {user} = useSelector(state=>state)
-    const dispatch = useDispatch()
+    const { user } = useSelector((state) => state);
+    const dispatch = useDispatch();
     const [showTheme, setShowTheme] = useState(false);
-    const [mainTheme, setMainTheme] = useState('#ffffff')
-    const [subTheme, setSubTheme] = useState('#ffffff')
-    const [userTheme, setUserTheme] = useState([])
+    const [mainTheme, setMainTheme] = useState("#FFFFFF");
+    const [subTheme, setSubTheme] = useState("#FFFFFF");
+    const [userTheme, setUserTheme] = useState([]);
     const paletteOpen = useCallback(() => setShowTheme(true), [])
     const paltteClose = useCallback(() => setShowTheme(false), [])
+    const handleChangeMain = useCallback((color) => setMainTheme(color), []);
+    const handleChangeSub = useCallback((color) => setSubTheme(color), []);
 
     const saveTheme = useCallback(async () => {
         if(!user.currentUser?.uid) return
         try {
             const db = getDatabase()
-            const key = push(child(ref(db),'/users/'+user.currentUser.uid+'/theme')).key
+            const key = push(
+                child(ref(db),'/users/'+user.currentUser.uid+'/theme')
+                ).key
             const newTheme = {mainTheme, subTheme};
             const updates = {};
             updates['/users/'+user.currentUser.uid+'/theme/'+key] = newTheme;
             await update(ref(db), updates);
+            paltteClose()
         } catch (error) {
             console.error(error)
+            paltteClose()
         }
-        paltteClose()
     }, [mainTheme,subTheme, user.currentUser?.uid, paltteClose])
 
     useEffect(() => {
         if(!user.currentUser?.uid) return
         const db = getDatabase()
-        const themeRef = ref(db,'/users/'+user.currentUser.uid+'/theme');
+        const themeRef = ref(db,'users/'+user.currentUser.uid+'/theme');
         const unsubscribe = onChildAdded(themeRef, (snap)=>{
             setUserTheme((themeArr)=>[snap.val(), ...themeArr])
         })
@@ -60,13 +65,9 @@ function ThemeMenu() {
                 {
                     userTheme.map((theme, idx)=>(
                         <ListItem key={idx} >
-                            <div className='theme-box' onClick={dispatch(setTheme(theme.mainTheme, theme.subTheme))}>
-                                <div className='theme-main' style={{backgroundColor:theme.mainTheme}}>
-                                    
-                                </div>
-                                <div className='theme-sub' style={{backgroundColor:theme.subTheme}}>
-
-                                </div>
+                            <div className='theme-box' onClick={()=>{dispatch(setTheme(theme.mainTheme, theme.subTheme))}}>
+                                <div className='theme-main' style={{backgroundColor:theme.mainTheme}}></div>
+                                <div className='theme-sub' style={{backgroundColor:theme.subTheme}}></div>
                             </div>
                         </ListItem>
                     ))
@@ -78,11 +79,11 @@ function ThemeMenu() {
                         <Stack direction='row' spacing={2}>
                             <div>
                                 Main
-                                <HexColorPicker color={mainTheme} onChange={(color)=>setMainTheme(color)} />
+                                <HexColorPicker color={mainTheme} onChange={handleChangeMain} />
                             </div>
                             <div>
                                 Sub
-                                <HexColorPicker color={subTheme} onChange={(color)=>setSubTheme(color)} />
+                                <HexColorPicker color={subTheme} onChange={handleChangeSub} />
                             </div>
                         </Stack>
                     </DialogContent>

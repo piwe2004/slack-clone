@@ -18,8 +18,8 @@ const themeReducer = (state = initialState, action )=>{
                 mainTheme: action.mainTheme,
                 subTheme: action.subTheme
             }
-            default:
-                return state;
+        default:
+            return state;
     }
 }
 
