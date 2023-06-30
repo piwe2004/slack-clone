@@ -19,7 +19,7 @@ function ChannelMenu() {
     const handleClose = () =>{
         setOpen(false)
         setChannelName('')
-        setChannelName('')
+        setChannelDetail('')
     }
     const handleOpen = () =>{
         setOpen(true)
@@ -72,7 +72,6 @@ function ChannelMenu() {
         <>
             {/* TODO 테마반영 */}
             <List sx={{overflow:'auto', width:240, backgroundColor:theme.mainTheme}}>
-            {/* <List sx={{overflow:'auto', width:240, backgroundColor:'#000'}}> */}
                 <ListItem secondaryAction={
                     <IconButton sx={{color:'#9a939b'}} onClick={handleOpen}>
                         <AddIcon />

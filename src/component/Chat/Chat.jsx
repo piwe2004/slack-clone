@@ -27,12 +27,7 @@ function Chat() {
     }, [channel.currentChannel])
 
     useEffect(() => {
-//        const setTimeoutId = setTimeout(()=>{
-            messageEndRef.current.scrollIntoView({behavior:'smooth'})
-        // })
-        // return ()=>{
-        //     clearTimeout(setTimeoutId);
-        // }
+        messageEndRef.current.scrollIntoView({behavior:'instant'})
     }, [messages.length])
     
 

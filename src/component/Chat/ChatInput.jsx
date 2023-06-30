@@ -60,9 +60,7 @@ function ChatInput() {
         const codesArray = [];
         sym.forEach(el => codesArray.push('0x'+el));
         const emoji = String.fromCodePoint(...codesArray);
-        console.log(emoji)
         setMessage((messageValue)=>messageValue+emoji);
-        console.log(message)
     }, [])
 
     const handleClickOpen = () => setImagesModalOpen(true)
